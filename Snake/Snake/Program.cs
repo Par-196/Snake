@@ -18,18 +18,7 @@ namespace Snake
         {
             Game game = new Game();
 
-            
-
             game.Users = UserJsonService.LoadUsers();
-
-            Console.WriteLine("Enter Field height");
-            int fieldHeight = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter Field widht");
-            int filedWidht = int.Parse(Console.ReadLine());
-
-            game.StartGame(fieldHeight, filedWidht);
-
-
 
             try
             {
@@ -56,9 +45,9 @@ namespace Snake
                                 if (authorized == true)
                                 {
                                     Console.WriteLine("Enter Field height");
-                                    fieldHeight = int.Parse(Console.ReadLine());
+                                    int fieldHeight = int.Parse(Console.ReadLine());
                                     Console.WriteLine("Enter Field widht");
-                                    filedWidht = int.Parse(Console.ReadLine());
+                                    int filedWidht = int.Parse(Console.ReadLine());
                                     
                                     game.StartGame(fieldHeight, filedWidht);
                                 }

@@ -51,10 +51,16 @@ namespace Snake.Model
                 if (item == Snake.Body.Peek())
                 {
                     Cells[item.X, item.Y].Type = TypeCell.SnakeHead;
+                    Console.SetCursorPosition(item.Y, item.X);
+                    Console.Write(Cells[item.X, item.Y].ToString());
+                    Console.ResetColor();
                 }
                 else 
                 {
                     Cells[item.X, item.Y].Type = TypeCell.SnakeBody;
+                    Console.SetCursorPosition(item.Y, item.X);
+                    Console.Write(Cells[item.X, item.Y].ToString());
+                    Console.ResetColor();
                 }
             }
         }
@@ -100,13 +106,12 @@ namespace Snake.Model
             }
         }
 
-        public (int, int) SpawnFood(int foodXPoint,int foodYPoint)
+        public (int, int) SpawnFood(bool didSnakeEatFood, int foodXPoint,int foodYPoint)
         {
             Random random = new Random();
 
-            
 
-            if (FoodOnTheField() == false)
+            if (didSnakeEatFood == true)
             {
                 do
                 {
@@ -115,26 +120,15 @@ namespace Snake.Model
                 }
                 while (Cells[foodXPoint, foodYPoint].Type != TypeCell.Empty);
 
+
                 Cells[foodXPoint, foodYPoint].Type = TypeCell.Food;
+                Console.SetCursorPosition(foodYPoint, foodXPoint);
+                Console.Write(Cells[foodXPoint, foodYPoint].ToString());
                 Console.ResetColor();
+                didSnakeEatFood = false;
                 return (foodXPoint, foodYPoint);
             }
             return (foodXPoint, foodYPoint);
-        }
-
-        public bool FoodOnTheField()
-        { 
-            for (int x = 0; x < Cells.GetLength(0); x++)
-            {
-                for (int y = 0; y < Cells.GetLength(1); y++)
-                {
-                    if (Cells[x, y].Type == TypeCell.Food)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public bool DidSnakeEatFood(int foodXPoint, int foodYPoint)
@@ -153,6 +147,7 @@ namespace Snake.Model
         {
             if (Snake.Body.Last().X < 1 || Snake.Body.Last().Y < 1 || Snake.Body.Last().X > Cells.GetLength(0) - 2 || Snake.Body.Last().Y > Cells.GetLength(1) - 2)
             {
+                Console.SetCursorPosition(0, Cells.GetLength(0));
                 Console.WriteLine("Ви в'єбались у стіну");
                 return true;
             }
@@ -161,6 +156,7 @@ namespace Snake.Model
                 
                 if ((Snake.Body.Last().X == item.X && Snake.Body.Last().Y == item.Y) && (item != Snake.Body.Last()))
                 {
+                    Console.SetCursorPosition(0, Cells.GetLength(0));
                     Console.WriteLine("Ви в'єбались у себе");
                     return true;
                 }
@@ -174,8 +170,13 @@ namespace Snake.Model
             
             if (didSnakeEatFood == false && Snake.Body.Count > 1)
             {
-                Cells[Snake.Body.Peek().X, Snake.Body.Peek().Y].Type = TypeCell.Empty;
+                var tail = Snake.Body.Peek();
+                Cells[tail.X, tail.Y].Type = TypeCell.Empty;
+
+                Console.SetCursorPosition(tail.Y, tail.X);
+                Console.Write(Cells[tail.X, tail.Y].ToString());
                 Console.ResetColor();
+
                 Snake.Body.Dequeue();
             }
 
@@ -188,6 +189,8 @@ namespace Snake.Model
                 }
                 var type = isHead ? TypeCell.SnakeHead : TypeCell.SnakeBody;
                 Cells[item.X, item.Y].Type = type;
+                Console.SetCursorPosition(item.Y, item.X);
+                Console.Write(Cells[item.X, item.Y].ToString());
                 Console.ResetColor();
             }
         }

@@ -65,19 +65,22 @@ namespace Snake.Model
             bool snakeAlive = true;
             int foodXPoint = 0;
             int foodYPoint = 0;
-            bool didSnakeEatFood = false;
-
+            bool didSnakeEatFood = true;
+            Console.Clear();
+            Console.CursorVisible = false;  
+            Field.ShowField();
             while (snakeAlive)
             {
-                Console.CursorVisible = false;
-                Console.Clear(); 
-                (foodXPoint, foodYPoint) = Field.SpawnFood(foodXPoint, foodYPoint);
+                if (Field.Snake.Body.Count == (Field.Cells.GetLength(0) - 2) * (Field.Cells.GetLength(1) - 2))
+                {
+                    Console.SetCursorPosition(0, Field.Cells.GetLength(0));
+                    Console.WriteLine("Congratulations! You won the game!");
+                    break;
+                }
 
-                Field.ShowField();
+                (foodXPoint, foodYPoint) = Field.SpawnFood(didSnakeEatFood, foodXPoint, foodYPoint);
+
                 
-
-
-
                 if (Console.KeyAvailable)
                 {
                     ConsoleKey userInput = Console.ReadKey(true).Key;
@@ -135,6 +138,8 @@ namespace Snake.Model
                 
 
                 didSnakeEatFood = Field.DidSnakeEatFood(foodXPoint, foodYPoint);
+
+                
 
                 Field.UpdateSnake(didSnakeEatFood);
 

@@ -13,7 +13,7 @@ namespace Snake.Model
         public SnakeDirection Direction { get; set; }
 
         public Snake()
-        { 
+        {
             Body = new Queue<Point>();
         }
     }
