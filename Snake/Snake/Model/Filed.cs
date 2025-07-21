@@ -3,6 +3,7 @@ using System;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Snake.Model
 {
@@ -65,6 +66,7 @@ namespace Snake.Model
                 for (int y = 0; y < Cells.GetLength(1); y++)
                 {
                     Console.Write(Cells[x ,y]);
+                    Console.ResetColor();
                 }
                 Console.WriteLine();
             }
@@ -114,6 +116,7 @@ namespace Snake.Model
                 while (Cells[foodXPoint, foodYPoint].Type != TypeCell.Empty);
 
                 Cells[foodXPoint, foodYPoint].Type = TypeCell.Food;
+                Console.ResetColor();
                 return (foodXPoint, foodYPoint);
             }
             return (foodXPoint, foodYPoint);
@@ -172,6 +175,7 @@ namespace Snake.Model
             if (didSnakeEatFood == false && Snake.Body.Count > 1)
             {
                 Cells[Snake.Body.Peek().X, Snake.Body.Peek().Y].Type = TypeCell.Empty;
+                Console.ResetColor();
                 Snake.Body.Dequeue();
             }
 
@@ -184,6 +188,7 @@ namespace Snake.Model
                 }
                 var type = isHead ? TypeCell.SnakeHead : TypeCell.SnakeBody;
                 Cells[item.X, item.Y].Type = type;
+                Console.ResetColor();
             }
         }
     }

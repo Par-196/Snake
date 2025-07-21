@@ -12,14 +12,11 @@ namespace Snake.Model
     {
         public Point Point { get; set; }
         public TypeCell Type { get; set; } = TypeCell.Empty;
-        public ConsoleColor Color { get; set; } = ConsoleColor.White;
 
         public Cell(TypeCell type)
         {
             Type = type;
         }
-
-        
 
         public override string ToString()
         {
@@ -27,23 +24,33 @@ namespace Snake.Model
             {
                 case TypeCell.Empty:
                     { 
+                        ConsoleColor color = ConsoleColor.Black;
+                        Console.BackgroundColor = color;
                         return " ";
                     }
                 case TypeCell.SnakeHead:
-                    { 
-                        return "O";
+                    {
+                        ConsoleColor color = ConsoleColor.Yellow;
+                        Console.BackgroundColor = color;
+                        return " ";
                     }
                 case TypeCell.SnakeBody:
-                    { 
-                        return "*";
+                    {
+                        ConsoleColor color = ConsoleColor.Green;
+                        Console.BackgroundColor = color;
+                        return " ";
                     }
                 case TypeCell.Border:
                     { 
-                        return "#";
+                        ConsoleColor color = ConsoleColor.White;
+                        Console.BackgroundColor = color;    
+                        return " ";
                     }
                 case TypeCell.Food:
                     { 
-                        return "X";
+                        ConsoleColor color = ConsoleColor.Red;
+                        Console.BackgroundColor = color;
+                        return " ";
                     }
                 default:
                     break;
@@ -51,6 +58,6 @@ namespace Snake.Model
 
             return "Error";
         }
-
+        
     }
 }
