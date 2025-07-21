@@ -68,7 +68,9 @@ namespace Snake.Model
             bool didSnakeEatFood = false;
 
             while (snakeAlive)
-            { 
+            {
+                Console.CursorVisible = false;
+                Console.Clear(); 
                 (foodXPoint, foodYPoint) = Field.SpawnFood(foodXPoint, foodYPoint);
 
                 Field.ShowField();
