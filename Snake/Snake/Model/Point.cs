@@ -14,8 +14,8 @@ namespace Snake.Model
 
         public Point(int x, int y)
         { 
-            x = X;
-            y = Y;
+            X = x;
+            Y = y;
         }
     }
 }

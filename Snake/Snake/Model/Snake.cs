@@ -9,13 +9,12 @@ namespace Snake.Model
 {
     public class Snake 
     {
-        public Queue<Point> Body { get; set; } = new Queue<Point>();
+        public Queue<Point> Body { get; set; }
+        public SnakeDirection Direction { get; set; }
 
         public Snake()
         { 
             Body = new Queue<Point>();
-            Body.Enqueue(new Point(1, 1));
-            
         }
     }
 }

@@ -12,11 +12,14 @@ namespace Snake.Model
     {
         public Point Point { get; set; }
         public TypeCell Type { get; set; } = TypeCell.Empty;
+        public ConsoleColor Color { get; set; } = ConsoleColor.White;
 
         public Cell(TypeCell type)
         {
             Type = type;
         }
+
+        
 
         public override string ToString()
         {
@@ -25,6 +28,10 @@ namespace Snake.Model
                 case TypeCell.Empty:
                     { 
                         return " ";
+                    }
+                case TypeCell.SnakeHead:
+                    { 
+                        return "O";
                     }
                 case TypeCell.SnakeBody:
                     { 
@@ -36,7 +43,7 @@ namespace Snake.Model
                     }
                 case TypeCell.Food:
                     { 
-                        return "@";
+                        return "X";
                     }
                 default:
                     break;
@@ -44,6 +51,6 @@ namespace Snake.Model
 
             return "Error";
         }
-        
+
     }
 }
