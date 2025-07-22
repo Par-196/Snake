@@ -2,6 +2,7 @@
 using Snake.Services;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Threading;
 
 namespace Snake.Model
@@ -59,94 +60,122 @@ namespace Snake.Model
 
         public void StartGame(int fieldHeight, int filedWidht)
         {
-            Field = new Field(new Cell[fieldHeight, filedWidht]);
- 
-
-            bool snakeAlive = true;
-            int foodXPoint = 0;
-            int foodYPoint = 0;
-            bool didSnakeEatFood = true;
-            Console.Clear();
-            Console.CursorVisible = false;  
-            Field.ShowField();
-            while (snakeAlive)
+            
+            
+            bool exit = false;
+            while (!exit)
             {
-                if (Field.Snake.Body.Count == (Field.Cells.GetLength(0) - 2) * (Field.Cells.GetLength(1) - 2))
+                Console.WriteLine("1.PLay\n" +
+                "2.Exit");
+                Enum.TryParse(Console.ReadLine(), out GameMenu gameMenu);
+                switch (gameMenu)
                 {
-                    Console.SetCursorPosition(0, Field.Cells.GetLength(0));
-                    Console.WriteLine("Congratulations! You won the game!");
-                    break;
-                }
-
-                (foodXPoint, foodYPoint) = Field.SpawnFood(didSnakeEatFood, foodXPoint, foodYPoint);
-
-                
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKey userInput = Console.ReadKey(true).Key;
-                            
-                    if ((userInput == ConsoleKey.W || userInput == ConsoleKey.UpArrow) && Field.Snake.Direction != SnakeDirection.Down)
-                    {
-                        Field.Snake.Direction = SnakeDirection.Up;
-                    }
-                    else if ((userInput == ConsoleKey.D || userInput == ConsoleKey.RightArrow) && Field.Snake.Direction != SnakeDirection.Left)
-                    {
-                        Field.Snake.Direction = SnakeDirection.Right;
-                    }
-                    else if ((userInput == ConsoleKey.S || userInput == ConsoleKey.DownArrow) && Field.Snake.Direction != SnakeDirection.Up)
-                    {
-                        Field.Snake.Direction = SnakeDirection.Down;
-                    }
-                    else if ((userInput == ConsoleKey.A || userInput == ConsoleKey.LeftArrow) && Field.Snake.Direction != SnakeDirection.Right)
-                    {
-                        Field.Snake.Direction = SnakeDirection.Left;
-                    }
-                }
-
-                if (Field.DidSnakeDie() == true)
-                {
-                    snakeAlive = false;
-                    Console.WriteLine("Game Over! Snake died.");
-                    break;
-                }
-
-
-                switch (Field.Snake.Direction)
-                {
-                    case SnakeDirection.Up:
+                    case GameMenu.PLay:
                         {
-                            Field.Move(Field.Snake.Direction);
+                            Field = new Field(new Cell[fieldHeight, filedWidht]);
+                            bool snakeAlive = true;
+                            int foodXPoint = 0;
+                            int foodYPoint = 0;
+                            bool didSnakeEatFood = true;
+                            Console.Clear();
+                            Console.CursorVisible = false;
+                            Field.ShowField();
+                            while (snakeAlive)
+                            {
+                                if (Field.Snake.Body.Count == (Field.Cells.GetLength(0) - 2) * (Field.Cells.GetLength(1) - 2))
+                                {
+                                    Console.SetCursorPosition(0, Field.Cells.GetLength(0));
+                                    Console.WriteLine("Congratulations! You won the game!");
+                                    break;
+                                }
+
+                                (foodXPoint, foodYPoint) = Field.SpawnFood(didSnakeEatFood, foodXPoint, foodYPoint);
+
+
+                                if (Console.KeyAvailable)
+                                {
+                                    ConsoleKey userInput = Console.ReadKey(true).Key;
+
+                                    if ((userInput == ConsoleKey.W || userInput == ConsoleKey.UpArrow) && Field.Snake.Direction != SnakeDirection.Down)
+                                    {
+                                        Field.Snake.Direction = SnakeDirection.Up;
+                                    }
+                                    else if ((userInput == ConsoleKey.D || userInput == ConsoleKey.RightArrow) && Field.Snake.Direction != SnakeDirection.Left)
+                                    {
+                                        Field.Snake.Direction = SnakeDirection.Right;
+                                    }
+                                    else if ((userInput == ConsoleKey.S || userInput == ConsoleKey.DownArrow) && Field.Snake.Direction != SnakeDirection.Up)
+                                    {
+                                        Field.Snake.Direction = SnakeDirection.Down;
+                                    }
+                                    else if ((userInput == ConsoleKey.A || userInput == ConsoleKey.LeftArrow) && Field.Snake.Direction != SnakeDirection.Right)
+                                    {
+                                        Field.Snake.Direction = SnakeDirection.Left;
+                                    }
+                                }
+
+                                if (Field.DidSnakeDie() == true)
+                                {
+                                    snakeAlive = false;
+                                    Console.WriteLine("Game Over! Snake died.");
+                                    break;
+                                }
+
+
+                                switch (Field.Snake.Direction)
+                                {
+                                    case SnakeDirection.Up:
+                                        {
+                                            Field.Move(Field.Snake.Direction);
+                                        }
+                                        break;
+                                    case SnakeDirection.Right:
+                                        {
+                                            Field.Move(Field.Snake.Direction);
+                                        }
+                                        break;
+                                    case SnakeDirection.Down:
+                                        {
+                                            Field.Move(Field.Snake.Direction);
+                                        }
+                                        break;
+                                    case SnakeDirection.Left:
+                                        {
+                                            Field.Move(Field.Snake.Direction);
+                                        }
+                                        break;
+                                }
+
+
+
+                                didSnakeEatFood = Field.DidSnakeEatFood(foodXPoint, foodYPoint);
+
+
+
+                                Field.UpdateSnake(didSnakeEatFood);
+
+
+
+                                Thread.Sleep(100);
+                            }
                         }
                         break;
-                    case SnakeDirection.Right:
+                    case GameMenu.Exit:
                         {
-                            Field.Move(Field.Snake.Direction);
+                            exit = true;    
+                            Console.WriteLine("Exit from game");
                         }
                         break;
-                    case SnakeDirection.Down:
+                    default:
                         {
-                            Field.Move(Field.Snake.Direction);
-                        }
-                        break;
-                    case SnakeDirection.Left:
-                        {
-                            Field.Move(Field.Snake.Direction);
+                            Console.WriteLine("Wrong input, try again");
                         }
                         break;
                 }
-
-                
-
-                didSnakeEatFood = Field.DidSnakeEatFood(foodXPoint, foodYPoint);
-
-                
-
-                Field.UpdateSnake(didSnakeEatFood);
-
-                
-
-                Thread.Sleep(100);
             }
+            
+
+            
         }
 
     }

@@ -67,6 +67,7 @@ namespace Snake.Model
 
         public void ShowField()
         {
+            Console.SetWindowSize(Cells.GetLength(1), Cells.GetLength(0));
             for (int x = 0; x < Cells.GetLength(0); x++)
             {
                 for (int y = 0; y < Cells.GetLength(1); y++)
@@ -76,6 +77,7 @@ namespace Snake.Model
                 }
                 Console.WriteLine();
             }
+            Console.SetCursorPosition(0, 0);
         }
 
 
@@ -147,8 +149,9 @@ namespace Snake.Model
         {
             if (Snake.Body.Last().X < 1 || Snake.Body.Last().Y < 1 || Snake.Body.Last().X > Cells.GetLength(0) - 2 || Snake.Body.Last().Y > Cells.GetLength(1) - 2)
             {
-                Console.SetCursorPosition(0, Cells.GetLength(0));
-                Console.WriteLine("Ви в'єбались у стіну");
+                Console.Clear();
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine("Ви в'єбались у стiну");
                 return true;
             }
             foreach (var item in Snake.Body)
@@ -156,7 +159,8 @@ namespace Snake.Model
                 
                 if ((Snake.Body.Last().X == item.X && Snake.Body.Last().Y == item.Y) && (item != Snake.Body.Last()))
                 {
-                    Console.SetCursorPosition(0, Cells.GetLength(0));
+                    Console.Clear();
+                    Console.SetCursorPosition(0, 0);
                     Console.WriteLine("Ви в'єбались у себе");
                     return true;
                 }
